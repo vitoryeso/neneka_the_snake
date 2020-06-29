@@ -1,81 +1,92 @@
-let snake = [ {X: 10, Y: 10, Direction: ""} ];
+let PLAY = false;
+
+let SNAKE_SQUARE_SIZE = 10;
+let STEP_LEN = 5;
 let WINDOW_HEIGHT, WINDOW_WIDTH;
-let food = {X: 1, Y: 1};
-let count = 1;
-let play = true;
-
 WINDOW_HEIGHT = WINDOW_WIDTH = 600;
+let CURRENT_DIRECTION;
 
-function spawnFood(){
+let snake = [ {X: 10, Y: 10, MoveId: -1} ];
+let snake_moves = [];
+
+function spawnFood() {
 	food.X = ~~(Math.random() * WINDOW_WIDTH)
 	food.Y = ~~(Math.random() * WINDOW_HEIGHT)
 }
 
-function setup(){
+function setup() {
 	createCanvas(WINDOW_HEIGHT, WINDOW_WIDTH);
+	frameRate(10);
+	noLoop();
 }
 
-function draw(){
+function draw() {
 	background(0);
-	updateSnakePosition()
-	strokeWeight(4);
-	stroke(255, 0, 255);
-	rect(snake[0].X, snake[0].Y, 10, 10);
-	rect(food.X, food.Y, 10, 10)
-	if(count %100 == 0){
-		spawnFood();
-		count = 1;
-	}
-	else count++;
+	addSnakeMove();
 }
 
-function updateSnakePosition(){
-	switch(snake.Direction){
-		case "up":
-			snake[0].Y -= 5;
-			break;
-		case "down":
-			snake[0].Y += 5;
-			break;
-		case "right":
-			snake[0].X += 5;
-			break;
-		case "left":
-			snake[0].X -= 5;
-			break;
+function addSnakeMove() {
+	if(CURRENT_DIRECTION !== "") {
+		switch(CURRENT_DIRECTION) {
+			case "left":
+				snake_moves.push( [-5, 0] );
+				break;
+			case "right":
+				snake_moves.push( [5, 0] );
+				break;
+			case "up":
+				snake_moves.push( [0, -5] );
+				break;
+			case "down":
+				snake_moves.push( [0, 5] );
+				break;
+		}
 	}
 }
 
-function keyPressed(){
-	switch(keyCode){
+function keyPressed() {
+	switch(keyCode) {
 		case LEFT_ARROW:
-			if(snake.Direction !== "left"){
-				if(play) snake.Direction = "left";
+			if(CURRENT_DIRECTION !== "left" && CURRENT_DIRECTION !== "right") {
+				CURRENT_DIRECTION = "left";
+			}
+			if(!PLAY) {
+				loop();
+				PLAY = true;
 			}
 			break;
 		case RIGHT_ARROW:
-			if(snake.Direction !== "right"){
-				if(play) snake.Direction = "right";
+			if(CURRENT_DIRECTION !== "right" && CURRENT_DIRECTION !== "left") {
+				CURRENT_DIRECTION = "right";
+			}
+			if(!PLAY) {
+				loop();
+				PLAY = true;
 			}
 			break;
 		case UP_ARROW:
-			if(snake.Direction !== "up"){
-				if(play) snake.Direction = "up";
+			if(CURRENT_DIRECTION !== "up" && CURRENT_DIRECTION !== "down" ) {
+				CURRENT_DIRECTION = "up";
+			}
+			if(!PLAY) {
+				loop();
+				PLAY = true;
 			}
 			break;
 		case DOWN_ARROW:
-			if(snake.Direction !== "down"){
-				if(play) snake.Direction = "down";
+			if(CURRENT_DIRECTION !== "down" && CURRENT_DIRECTION !== "up") {
+				CURRENT_DIRECTION = "down";
+			}
+			if(!PLAY) {
+				loop();
+				PLAY = true;
 			}
 			break;
-		case 32: //space key
-			if(play){
+		case 32:
+			if(PLAY) {
 				noLoop();
-				play = false;
+				PLAY = false;
 			}
-			else{
-				loop();
-				play = true;
-			}
+			break;
 	}
 }
