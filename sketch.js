@@ -9,6 +9,12 @@ let CURRENT_DIRECTION;
 let snake = [ {X: 10, Y: 10, MoveId: -1} ];
 let snake_moves = [];
 
+function createSnake(n) { // n is a integer, the length of the snake.
+	for(var i=0; i<n; i++) {
+		snake.push( {X:10, Y: 10, MoveId: 2*(i + 1)} );
+	}
+}
+
 function spawnFood() {
 	food.X = ~~(Math.random() * WINDOW_WIDTH)
 	food.Y = ~~(Math.random() * WINDOW_HEIGHT)
@@ -16,13 +22,35 @@ function spawnFood() {
 
 function setup() {
 	createCanvas(WINDOW_HEIGHT, WINDOW_WIDTH);
-	frameRate(10);
+	frameRate(30);
+	createSnake(5);
 	noLoop();
 }
 
 function draw() {
 	background(0);
 	addSnakeMove();
+	if(snake_moves.length > 0) {
+		moveSnake();
+	}
+	drawSnake();
+}
+
+function drawSnake() {
+	for(var i=0; i<snake.length; i++) {
+		rect(snake[i].X, snake[i].Y, SNAKE_SQUARE_SIZE, SNAKE_SQUARE_SIZE);
+	}
+}
+
+function moveSnake() {
+	snake[0].X += snake_moves[snake_moves.length - 1][0];
+	snake[0].Y += snake_moves[snake_moves.length - 1][1];
+		for(var i=1; i<snake.length; i++) {
+			if(snake_moves.length > snake[i].MoveId) {
+				snake[i].X += snake_moves[snake_moves.length - 1 - snake[i].MoveId][0];
+				snake[i].Y += snake_moves[snake_moves.length - 1 - snake[i].MoveId][1];
+			}
+		}
 }
 
 function addSnakeMove() {
@@ -42,6 +70,7 @@ function addSnakeMove() {
 				break;
 		}
 	}
+	if(snake_moves.length > (2*snake.length - 1) ) snake_moves.splice(0, 1);
 }
 
 function keyPressed() {
