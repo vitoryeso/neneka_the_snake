@@ -1,18 +1,32 @@
 let PLAY = false;
 
-let SNAKE_SQUARE_SIZE = 10;
+let SNAKE_SIZE = 10;
 let STEP_LEN = 5;
 let WINDOW_HEIGHT, WINDOW_WIDTH;
-WINDOW_HEIGHT = WINDOW_WIDTH = 600;
+WINDOW_HEIGHT = 1000;
+WINDOW_WIDTH = 600;
 let CURRENT_DIRECTION;
+let SNAKE_SPACING = 2;
+let SNAKE_COLOR = [255, 0, 0];
 
 let snake = [ {X: 10, Y: 10, MoveId: -1} ];
 let snake_moves = [];
 
+function preload() {
+    img = loadImage("/imgs/neneka.jpg");
+}
+
 function createSnake(n) { // n is a integer, the length of the snake.
 	for(var i=0; i<n; i++) {
-		snake.push( {X:10, Y: 10, MoveId: 2*(i + 1)} );
+		snake.push( {X:10, Y: 10, MoveId: SNAKE_SPACING*(i + 1)} );
 	}
+}
+
+function appendSnake() {
+    let lastX, lastY;
+    lastX = snake[snake.length - 1].X
+    lastY = snake[snake.length - 1].Y 
+    snake.push( {X: lastX, Y: lastY, MoveId: SNAKE_SPACING*snake.length} );
 }
 
 function spawnFood() {
@@ -28,17 +42,37 @@ function setup() {
 }
 
 function draw() {
-	background(0);
-	addSnakeMove();
+	background(170, 255, 130);
 	if(snake_moves.length > 0) {
 		moveSnake();
 	}
 	drawSnake();
+	addSnakeMove();
+}
+
+function update_color() {
+    if(SNAKE_COLOR[0] > 0 && SNAKE_COLOR[2] <= 0) {
+        SNAKE_COLOR[0] -= 30;
+        SNAKE_COLOR[1] += 30;
+    }
+    if(SNAKE_COLOR[1] > 0 && SNAKE_COLOR[0] <= 0) {
+        SNAKE_COLOR[1] -= 30;
+        SNAKE_COLOR[2] += 30;
+    }
+    if(SNAKE_COLOR[2] > 0 && SNAKE_COLOR[1] <= 0) {
+        SNAKE_COLOR[2] -= 30;
+        SNAKE_COLOR[0] += 30;
+    }
 }
 
 function drawSnake() {
-	for(var i=0; i<snake.length; i++) {
-		rect(snake[i].X, snake[i].Y, SNAKE_SQUARE_SIZE, SNAKE_SQUARE_SIZE);
+    image(img, snake[0].X - SNAKE_SIZE*4/2, snake[0].Y - SNAKE_SIZE*4/2, SNAKE_SIZE*4, SNAKE_SIZE*4);
+    update_color();
+	for(var i=1; i<snake.length; i++) {
+        strokeWeight(2);
+        stroke(0);
+        fill(SNAKE_COLOR);
+		circle(snake[i].X, snake[i].Y, SNAKE_SIZE);
 	}
 }
 
@@ -70,7 +104,7 @@ function addSnakeMove() {
 				break;
 		}
 	}
-	if(snake_moves.length > (2*snake.length - 1) ) snake_moves.splice(0, 1);
+	if(snake_moves.length > (SNAKE_SPACING*snake.length - 1) ) snake_moves.splice(0, 1);
 }
 
 function keyPressed() {
@@ -115,6 +149,7 @@ function keyPressed() {
 			if(PLAY) {
 				noLoop();
 				PLAY = false;
+                appendSnake();
 			}
 			break;
 	}
