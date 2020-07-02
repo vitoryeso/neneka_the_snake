@@ -3,8 +3,8 @@ let PLAY = false;
 let SNAKE_SIZE = 10;
 let STEP_LEN = 5;
 let WINDOW_HEIGHT, WINDOW_WIDTH;
-WINDOW_HEIGHT = 1000;
-WINDOW_WIDTH = 600;
+WINDOW_HEIGHT = 600;
+WINDOW_WIDTH = 1000;
 let CURRENT_DIRECTION;
 let SNAKE_SPACING = 2;
 let SNAKE_COLOR = [255, 0, 0];
@@ -12,8 +12,21 @@ let SNAKE_COLOR = [255, 0, 0];
 let snake = [ {X: 10, Y: 10, MoveId: -1} ];
 let snake_moves = [];
 
+let food = {X: -1, Y: -1};
+
+function checkFoodColision() {
+    dx = snake[0].X - food.X;
+    dy = snake[0].Y - food.Y;
+    if ( Math.sqrt(dx*dx + dy*dy) < 40) {
+        appendSnake();
+        return true;
+    }
+    else return false;
+}
+
 function preload() {
-    img = loadImage("/imgs/neneka.jpg");
+    neneka = loadImage("/imgs/neneka.jpg");
+    hatsune = loadImage("/imgs/hatsune.jpg");
 }
 
 function createSnake(n) { // n is a integer, the length of the snake.
@@ -29,13 +42,17 @@ function appendSnake() {
     snake.push( {X: lastX, Y: lastY, MoveId: SNAKE_SPACING*snake.length} );
 }
 
-function spawnFood() {
+function changeFoodPosition() {
 	food.X = ~~(Math.random() * WINDOW_WIDTH)
 	food.Y = ~~(Math.random() * WINDOW_HEIGHT)
 }
 
+function drawFood() {
+    image(hatsune, food.X, food.Y, 30, 30);
+}
+
 function setup() {
-	createCanvas(WINDOW_HEIGHT, WINDOW_WIDTH);
+	createCanvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 	frameRate(30);
 	createSnake(5);
 	noLoop();
@@ -43,6 +60,10 @@ function setup() {
 
 function draw() {
 	background(170, 255, 130);
+    if(checkFoodColision() === true) {
+        changeFoodPosition();
+    }
+    drawFood();
 	if(snake_moves.length > 0) {
 		moveSnake();
 	}
@@ -66,7 +87,7 @@ function update_color() {
 }
 
 function drawSnake() {
-    image(img, snake[0].X - SNAKE_SIZE*4/2, snake[0].Y - SNAKE_SIZE*4/2, SNAKE_SIZE*4, SNAKE_SIZE*4);
+    image(neneka, snake[0].X - SNAKE_SIZE*4/2, snake[0].Y - SNAKE_SIZE*4/2, SNAKE_SIZE*4, SNAKE_SIZE*4);
     update_color();
 	for(var i=1; i<snake.length; i++) {
         strokeWeight(2);
