@@ -1,7 +1,7 @@
 let GAME_WIDTH = 800;
 let GAME_HEIGHT = 600;
 
-let SQUARE_SIZE = 10;
+let SQUARE_SIZE = 8;
 let WIDTH = GAME_WIDTH / SQUARE_SIZE;
 let HEIGHT = GAME_HEIGHT / SQUARE_SIZE;
 
@@ -15,7 +15,7 @@ let COLOR_BG = [25, 225, 25];
 let COLOR_FOOD = [255, 240, 22];
 
 function setup() {
-  frameRate(40);
+  frameRate(60);
   createCanvas(GAME_WIDTH, GAME_HEIGHT);
 }
 
