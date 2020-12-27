@@ -25,7 +25,7 @@ function checkFoodColision() {
 }
 
 function preload() {
-    neneka = loadImage("/imgs/neneka.jpg");
+    neneka = loadImage("/imgs/neneka_mask.png");
     hatsune = loadImage("/imgs/hatsune.jpg");
 }
 
@@ -48,13 +48,16 @@ function changeFoodPosition() {
 }
 
 function drawFood() {
-    image(hatsune, food.X, food.Y, 30, 30);
+    //image(hatsune, food.X, food.Y, 30, 30);
+		rect(food.X, food.Y, 1, 1);
 }
 
 function setup() {
 	createCanvas(WINDOW_WIDTH, WINDOW_HEIGHT);
 	frameRate(30);
 	createSnake(5);
+  let pd = pixelDensity();
+  console.log(pd);
 	noLoop();
 }
 
@@ -87,13 +90,13 @@ function update_color() {
 }
 
 function drawSnake() {
-    image(neneka, snake[0].X - SNAKE_SIZE*4/2, snake[0].Y - SNAKE_SIZE*4/2, SNAKE_SIZE*4, SNAKE_SIZE*4);
+    //image(neneka, snake[0].X - SNAKE_SIZE*4/2, snake[0].Y - SNAKE_SIZE*4/2, SNAKE_SIZE*4, SNAKE_SIZE*4);
     update_color();
 	for(var i=1; i<snake.length; i++) {
         strokeWeight(2);
         stroke(0);
         fill(SNAKE_COLOR);
-		circle(snake[i].X, snake[i].Y, SNAKE_SIZE);
+		rect(snake[i].X, snake[i].Y, 1, 1);
 	}
 }
 
