@@ -2,7 +2,8 @@
 - [x] snake funcional
 - [x] game keys (pause, return etc)
 - [x] multiple keys
-- [ ] check self colision
+- [x] check self colision
+- [x] create a gameover screen
 - [ ] neneka head
 - [ ] hatsune food
 
