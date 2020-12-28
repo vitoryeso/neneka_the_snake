@@ -1,18 +1,29 @@
-let GAME_WIDTH = 800;
-let GAME_HEIGHT = 600;
+let GAME_WIDTH = 1000;
+let GAME_HEIGHT = 500;
 
-let SQUARE_SIZE = 8;
+let SQUARE_SIZE = 10;
 let WIDTH = GAME_WIDTH / SQUARE_SIZE;
 let HEIGHT = GAME_HEIGHT / SQUARE_SIZE;
+
+let play = true;
 
 let food = { x:  ~~(Math.random() * WIDTH), y: ~~(Math.random() * HEIGHT) };
 let snake = [ { x: 10, y: 10, direction: 2 } ];
 
 // colors can be grayscale scalar or rgb array
-let COLOR_PLAYER = [255, 0, 0]; 
-let COLOR_SNAKE_HEAD = [255, 0, 255];
+let COLOR_SNAKE = [255, 0, 0]; 
+let COLOR_SNAKE_HEAD = [155, 0, 255];
 let COLOR_BG = [25, 225, 25];
 let COLOR_FOOD = [255, 240, 22];
+
+let COLOR_PAUSE = 170;
+let COLOR_PAUSE_TEXT = [255, 0, 255];
+
+let gameFont;
+
+function preload() {
+  gameFont = loadFont("./fonts/PressStart2P-Regular.ttf");
+}
 
 function setup() {
   frameRate(60);
@@ -20,102 +31,27 @@ function setup() {
 }
 
 function draw() {
-  background(COLOR_BG);
+  if(play) {
+    background(COLOR_BG);
 
-  
-  drawSnake();
-  updateSnakePos();
-  if (snake[0].x == food.x && snake[0].y == food.y) {
-    resetFood(); 
-    upgradeSnake();
-  }
-  drawFood();
-}
-
-function upgradeSnake() {
-  let snakeGain;
-  let lastX = snake[snake.length - 1].x;
-  let lastY = snake[snake.length - 1].y;
-
-  switch (snake[snake.length - 1].direction) {
-    case 0:
-      snakeGain = { x: lastX + 1, y: lastY, direction: 0 };
-      break;
-    case 1:
-      snakeGain = { x: lastX, y: lastY + 1, direction: 1 };
-      break;
-    case 2:
-      snakeGain = { x: lastX - 1, y: lastY, direction: 2 };
-      break;
-    case 3:
-      snakeGain = { x: lastX, y: lastY - 1, direction: 3 };
-      break;
-  }
-  snake.push(snakeGain);
-}
-
-function drawSnake() {
-  for (var i=0; i<snake.length; i++) {
-    if (i == 0) {
-      newDrawRect(snake[i].x, snake[i].y, COLOR_SNAKE_HEAD);
+    drawSnake();
+    updateSnakePos();
+    if (snake[0].x == food.x && snake[0].y == food.y) {
+      resetFood(); 
+      upgradeSnake();
     }
-    else {
-      newDrawRect(snake[i].x, snake[i].y, COLOR_PLAYER);
-    }
+    drawFood();
+  }
+  else {
+    pauseScreen();
   }
 }
 
-function resetFood() {
-  food.x = ~~(Math.random() * WIDTH); 
-  food.y = ~~(Math.random() * HEIGHT); 
-}
-
-function updateSnakePos() {
-  for (var i=0; i<snake.length; i++) {
-    switch (snake[i].direction) {
-      case 0:
-        if (snake[i].x == 0) {
-          snake[i].x = WIDTH - 1;
-        }
-        else snake[i].x--;
-        break;
-      case 1:
-        if (snake[i].y == 0) {
-          snake[i].y = HEIGHT - 1;
-        }
-        else snake[i].y--;
-        break;
-      case 2:
-        if (snake[i].x == WIDTH - 1) {
-          snake[i].x = 0;
-        }
-        else snake[i].x++;
-        break;
-      case 3:
-        if (snake[i].y == HEIGHT - 1) {
-          snake[i].y = 0;
-        }
-        else snake[i].y++;
-        break;
-    }
-  }
-  for (var i=snake.length-1; i>0; i--) {
-    snake[i].direction = snake[i-1].direction;
-  }
-}
-
-function newDrawRect( posX, posY, color ) {
-  fill(color);
-  rect(posX * SQUARE_SIZE, posY * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-}
-
-function drawFood() {
-  newDrawRect( food.x, food.y, COLOR_FOOD);
-}
 
 function keyPressed() {
   // the snake cant move to the inverse of the current direction
   switch(keyCode) {
+    // ARROW KEYS
     case LEFT_ARROW:
       if (snake[0].direction != 2 && snake[0].direction != 0) {
         snake[0].direction = 0;
@@ -134,6 +70,58 @@ function keyPressed() {
     case DOWN_ARROW:
       if (snake[0].direction != 1 && snake[0].direction != 3) {
         snake[0].direction = 3;
+      }
+      break;
+    // AWSD KEYS
+    case 65: // 'a' key
+      if (snake[0].direction != 2 && snake[0].direction != 0) {
+        snake[0].direction = 0;
+      }
+      break;
+    case 68: // 'd' key
+      if (snake[0].direction != 2 && snake[0].direction != 0) {
+        snake[0].direction = 2;
+      }
+      break;
+    case 87: // 'w' key
+      if (snake[0].direction != 1 && snake[0].direction != 3) {
+        snake[0].direction = 1;
+      }
+      break;
+    case 83: // 's' key
+      if (snake[0].direction != 1 && snake[0].direction != 3) {
+        snake[0].direction = 3;
+      }
+      break;
+    // VIM KEYS
+    case 72: // 'h'
+      if (snake[0].direction != 2 && snake[0].direction != 0) {
+        snake[0].direction = 0;
+      }
+      break;
+    case 76: // 'l'
+      if (snake[0].direction != 2 && snake[0].direction != 0) {
+        snake[0].direction = 2;
+      }
+      break;
+    case 75: // 'k'
+      if (snake[0].direction != 1 && snake[0].direction != 3) {
+        snake[0].direction = 1;
+      }
+      break;
+    case 74: // 'j'
+      if (snake[0].direction != 1 && snake[0].direction != 3) {
+        snake[0].direction = 3;
+      }
+      break;
+    case ESCAPE:
+      if (play) {
+        noLoop();
+        play = false;
+      }
+      else {
+        loop();
+        play = true; 
       }
       break;
   }
