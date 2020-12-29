@@ -4,5 +4,5 @@ function resetFood() {
 }
 
 function drawFood() {
-  newDrawRect( food.x, food.y, COLOR_FOOD);
+  image(hatsune, food.x * SQUARE_SIZE, food.y * SQUARE_SIZE, SQUARE_SIZE*3, SQUARE_SIZE*3);
 }

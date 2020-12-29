@@ -4,10 +4,14 @@ function newDrawRect( posX, posY, color ) {
 }
 
 function checkFoodColision() {
-  if (snake[0].x == food.x && snake[0].y == food.y) {
-    return true;
+  for (var i=0; i<3; i++) {
+    for (var j=0; j<3; j++) {
+      if (snake[0].x == food.x+i && snake[0].y == food.y+j) {
+        return true;
+      }
+    }
   }
-  else return false;
+  return false;
 }
 
 function checkSelfColision () {
@@ -17,4 +21,12 @@ function checkSelfColision () {
     }
   }
   return false;
+}
+
+function drawScore () {
+  
+  textSize(14);
+  textFont(gameFont);
+  fill(COLOR_GAMEOVER_SCREEN);
+  text("SCORE: " + score, 3, GAME_HEIGHT - SQUARE_SIZE);
 }
