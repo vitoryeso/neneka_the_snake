@@ -9,6 +9,18 @@ function checkFoodColision() {
       if (snake[0].x == food.x+i && snake[0].y == food.y+j) {
         return true;
       }
+      if (snake[0].x == food.x+i && snake[0].y == food.y+j+1) {
+        return true;
+      }
+      if (snake[0].x == food.x+i && snake[0].y == food.y+j-1) {
+        return true;
+      }
+      if (snake[0].x == food.x+i+1 && snake[0].y == food.y+j) {
+        return true;
+      }
+      if (snake[0].x == food.x+i-1 && snake[0].y == food.y+j) {
+        return true;
+      }
     }
   }
   return false;

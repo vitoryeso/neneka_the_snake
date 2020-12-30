@@ -5,6 +5,10 @@
 
 let SCREEN = 0;
 
+/* sounds */
+let themeSound;
+let scoreSound;
+
 // time
 let start;
 let end;
@@ -25,7 +29,7 @@ let snake = [ { x: 10, y: 10, direction: 2 } ];
 // colors can be grayscale scalar or rgb array
 const COLOR_SNAKE = [255, 0, 0]; 
 const COLOR_SNAKE_HEAD = [155, 0, 255];
-const COLOR_BG = [25, 225, 25];
+const COLOR_BG = [79, 250, 242];
 const COLOR_FOOD = [255, 240, 22];
 
 const COLOR_PAUSE = 170;
@@ -43,12 +47,16 @@ let gameFont;
 function preload() {
   gameFont = loadFont("./fonts/PressStart2P-Regular.ttf");
   hatsune = loadImage("./imgs/hatsune.jpg");
+  neneka = loadImage("./imgs/neneka.jpg");
+  themeSound = loadSound("./sounds/hatsunemiku_nenekathesnake.mp3");
+  scoreSound = loadSound("./sounds/uuu.mp3");
 }
 
 function setup() {
   frameRate(60);
   createCanvas(GAME_WIDTH, GAME_HEIGHT);
   start = new Date().getTime();
+  themeSound.play();
 }
 
 function draw() {
@@ -63,6 +71,7 @@ function draw() {
           end = new Date().getTime();
           // game over screen
           SCREEN = 1;
+          themeSound.stop();
         }
         if (checkFoodColision()) {
           score++;
@@ -77,7 +86,18 @@ function draw() {
       break;
     case 1:    
       gameOverScreen();
+      
+      if (!scoreSound.isPlaying()) {
+        scoreSound.play();
+      }
+      if (themeSound.isPlaying()) {
+        themeSound.stop(); 
+      }
       break;
+  }
+
+  if (!themeSound.isPlaying()) {
+    themeSound.play(); 
   }
 }
 
@@ -163,6 +183,7 @@ function keyPressed() {
   }
   else if (SCREEN == 1) {
     if (keyCode == ENTER) {
+      scoreSound.stop();
       SCREEN = 0;
       score = 0;
       start = new Date().getTime();

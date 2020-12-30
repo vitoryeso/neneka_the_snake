@@ -4,6 +4,10 @@
 - [x] multiple keys
 - [x] check self colision
 - [x] create a gameover screen
-- [ ] neneka head
-- [ ] hatsune food
+- [x] neneka head
+- [x] hatsune food
+- [x] game sound (hatsune)
+- [ ] food colision sound (hatsune adlib)
+- [ ] ranks showing top 5 with name, foto and score
+- [ ] change site (css) colors to hatsunemiku colors
 

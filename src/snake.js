@@ -21,13 +21,24 @@ function upgradeSnake() {
 }
 
 function drawSnake() {
-  for (var i=0; i<snake.length; i++) {
-    if (i == 0) {
-      newDrawRect(snake[i].x, snake[i].y, COLOR_SNAKE_HEAD);
-    }
-    else {
-      newDrawRect(snake[i].x, snake[i].y, COLOR_SNAKE);
-    }
+  // drawing the head
+  switch(snake[0].direction) {
+    case 0:
+      image(neneka, (snake[0].x-2) * SQUARE_SIZE, (snake[0].y-1) * SQUARE_SIZE, 3*SQUARE_SIZE, 3*SQUARE_SIZE);
+      break;
+    case 1:
+      image(neneka, (snake[0].x-1) * SQUARE_SIZE, (snake[0].y-2) * SQUARE_SIZE, 3*SQUARE_SIZE, 3*SQUARE_SIZE);
+      break;
+    case 2:
+      image(neneka, (snake[0].x) * SQUARE_SIZE, (snake[0].y-1) * SQUARE_SIZE, 3*SQUARE_SIZE, 3*SQUARE_SIZE);
+      break;
+    case 3:
+      image(neneka, (snake[0].x-1) * SQUARE_SIZE, (snake[0].y) * SQUARE_SIZE, 3*SQUARE_SIZE, 3*SQUARE_SIZE);
+
+  }
+
+  for (var i=1; i<snake.length; i++) {
+    newDrawRect(snake[i].x, snake[i].y, COLOR_SNAKE);
   }
 }
 
