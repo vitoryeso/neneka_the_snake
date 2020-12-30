@@ -1,6 +1,6 @@
 function resetFood() {
-  food.x = ~~(Math.random() * WIDTH); 
-  food.y = ~~(Math.random() * HEIGHT); 
+  food.x = ~~(Math.random() * (WIDTH - 6)) + 2; 
+  food.y = ~~(Math.random() * (HEIGHT - 6)) + 2; 
 }
 
 function drawFood() {

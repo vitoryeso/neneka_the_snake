@@ -7,7 +7,8 @@
 - [x] neneka head
 - [x] hatsune food
 - [x] game sound (hatsune)
-- [ ] food colision sound (hatsune adlib)
+- [x] food colision sound (hatsune adlib)
 - [ ] ranks showing top 5 with name, foto and score
-- [ ] change site (css) colors to hatsunemiku colors
+- [x] change site (css) colors to hatsunemiku colors
+- [x] fix food spawn
 

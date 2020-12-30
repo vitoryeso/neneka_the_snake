@@ -13,8 +13,8 @@ let scoreSound;
 let start;
 let end;
 
-const GAME_WIDTH = 1000;
-const GAME_HEIGHT = 500;
+const GAME_WIDTH = 1100;
+const GAME_HEIGHT = 600;
 
 const SQUARE_SIZE = 10;
 const WIDTH = GAME_WIDTH / SQUARE_SIZE;
@@ -49,11 +49,15 @@ function preload() {
   hatsune = loadImage("./imgs/hatsune.jpg");
   neneka = loadImage("./imgs/neneka.jpg");
   themeSound = loadSound("./sounds/hatsunemiku_nenekathesnake.mp3");
+  themeSound.setVolume(0.4);
   scoreSound = loadSound("./sounds/uuu.mp3");
+  scoreSound.setVolume(0.5);
+  foodSound = loadSound("./sounds/nenekatchan.mp3");
+  foodSound.setVolume(1);
 }
 
 function setup() {
-  frameRate(60);
+  frameRate(30);
   createCanvas(GAME_WIDTH, GAME_HEIGHT);
   start = new Date().getTime();
   themeSound.play();
@@ -75,6 +79,7 @@ function draw() {
         }
         if (checkFoodColision()) {
           score++;
+          foodSound.play();
           resetFood(); 
           upgradeSnake();
         }

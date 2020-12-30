@@ -24,7 +24,7 @@ function gameOverScreen() {
   textFont(gameFont);
   fill(COLOR_GAMEOVER_TEXT);
   text(text1, GAME_WIDTH/3, GAME_HEIGHT/2);
-  text("SCORE: " + score + "   TIME: " + (end -  start)/1000 + "s", GAME_WIDTH/3, GAME_HEIGHT/2 + 3*SQUARE_SIZE);
+  text("SCORE: " + score, GAME_WIDTH/3, GAME_HEIGHT/2 + 4*SQUARE_SIZE);
   text(text3, GAME_WIDTH/3, GAME_HEIGHT - SQUARE_SIZE);
 }
  
